@@ -2,13 +2,33 @@ const express = require('express');
 const router = express.Router();
 const Persona = require('../models/persona');
 
-/* GET users listing. */
+/* GET users listing. Todos los usuarios */
 router.get('/', async (req, res) => {
 
   //const personas = await Persona.find().lean();
   const personas = await Persona.find();
   res.json({
     personas: personas
+  });
+
+});
+
+//Get por nombre/buscar por nombre de la persona
+router.get('/buscar', async (req, res) => {
+
+  const { nombre } = req.query;
+  //const { dni } = req.query;
+
+  console.log(`El cliente busca a ${nombre}`);
+  //console.log(`El cliente busca a ${dni}`);
+
+  const personas = await Persona.find({ nombre: nombre });
+  //const personas = await Persona.find({ dni: dni });
+
+  console.log(`La database rescponde con ${personas}`);
+
+  res.json({ 
+    personas: personas 
   });
 
 });
